@@ -126,8 +126,8 @@ async function WhereY() {
 }
 
 function Window(x1,y1,x2,y2) {
-  // TODO
-  return true;
+  // x values are ignored (scrolls whole lines)
+  return ansi.write(ansi.prefix+'['+y1+';'+y2+'r');
 }
 
 // clearing
