@@ -91,6 +91,14 @@ function NoSound() {
 // cursor functions
 
 function BigCursor() {
+/* Sequence: CSI = Pn1 ; Pn2 C
+Description: Set cursor parameters
+
+Sets cursor parameters (where Pn1 is the starting and Pn2 is the
+ending scanlines of the cursor).
+
+Source: UnixWare 7 display(7)
+Status: SCO private */
   ansi.show();
   return true;
 }
@@ -136,14 +144,14 @@ function ClrScr() {
   return true;
 }
 
-function DelLine() {
-  // TODO
-  return true;
+function DelLine(count) {
+  if (typeof count === 'undefined') count = '';
+  return ansi.write(ansi.prefix+'[P'+count+'M');
 }
 
-function InsLine() {
-  // TODO
-  return true;
+function InsLine(count) {
+  if (typeof count === 'undefined') count = '';
+  return ansi.write(ansi.prefix+'[P'+count+'L');
 }
 
 // colour functions
@@ -217,12 +225,32 @@ function Title(s) {
   ansi.write(ansi.prefix+']0;'+s+ansi.prefix+'\\');
 }
 
+function Link(url,text) {
+  // see https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda
+  if (!text) text = url;
+  ansi.write(ansi.prefix+']8;;'+url+ansi.prefix+'\\'+text+ansi.prefix+']8;;'+ansi.prefix+'\\');
+}
+
 function Save() {
-  ansi.write(ansi.prefix+'[?47h');
+  return ansi.write(ansi.prefix+'[?47h');
 }
 
 function Restore() {
-  ansi.write(ansi.prefix+'[?47l');
+  return ansi.write(ansi.prefix+'[?47l');
+}
+
+function AltOn() {
+  return ansi.write(ansi.prefix+'[?1049h');
+}
+
+function AltOff() {
+  return ansi.write(ansi.prefix+'[?1049l');
+}
+
+function GetCh() {
+  // doesn't look to be widely supported
+  ansi.write(ansi.prefix+'5');
+  return '';
 }
 
 module.exports = {
@@ -259,7 +287,11 @@ module.exports = {
   Buffer,
   Flush,
   Title,
+  Link,
   Save,
-  Restore
+  Restore,
+  AltOn,
+  AltOff,
+  GetCh
 };
 
