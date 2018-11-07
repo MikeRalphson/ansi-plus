@@ -194,6 +194,14 @@ function WriteLn(s) {
   return ansi.write(s+'\n');
 }
 
+function Buffer(b) {
+  return ansi.buffering = b;
+}
+
+function Flush() {
+  return ansi.flush();
+}
+
 module.exports = {
   Black,
   Blue,
@@ -223,6 +231,8 @@ module.exports = {
   Sound,
   NoSound,
   Write,
-  WriteLn
+  WriteLn,
+  Buffer,
+  Flush
 };
 

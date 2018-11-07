@@ -1,6 +1,6 @@
 'use strict';
 
-// Rough analogue of UTILITY.PAS unit for Javascript
+// Rough analogue of MER's UTILITY.PAS unit for Javascript
 
 const crt = require('./crt.js');
 
@@ -15,7 +15,14 @@ const styles = {
 
 const shades = ' ░▒▓█';
 
+const themes = {
+  cua: { menu: { bg: crt.Blue, fg: crt.Yellow, style: styles.single } },
+  novell: {},
+  borland: {}
+};
+
 function box(x,y,h,w,style,bg,fg) {
+  crt.Buffer(true);
   if (typeof bg !== 'undefined') {
     crt.TextBackground(bg); 
   }
@@ -30,9 +37,11 @@ function box(x,y,h,w,style,bg,fg) {
   }
   crt.GotoXY(x,y+h);
   crt.Write(style[6]+style[7].repeat(w)+style[8]);
+  crt.Flush();
 }
 
 function fillchar(x,y,h,w,ch,bg,fg) {
+  crt.Buffer(true);
   if (typeof bg !== 'undefined') {
     crt.TextBackground(bg); 
   }
@@ -42,11 +51,13 @@ function fillchar(x,y,h,w,ch,bg,fg) {
   for (let line = y; line < y+h; line++) {
     crt.Write(ch.repeat(w));
   }
+  crt.Flush();
 }
 
 module.exports = {
   styles,
   shades,
+  themes,
   box,
   fillchar
 };
