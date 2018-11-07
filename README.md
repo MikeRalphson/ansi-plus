@@ -16,3 +16,7 @@ Turbo Pascal CRT unit-like functions and primitive TUI utilities
 ## Work in progress
 
 * `cua.js` - building on the above, provides a menu system loosely based on the IBM SAA/CUA guidelines
+
+## TODO
+
+* A damage / write-through buffer to allow restoring sections of the screen
