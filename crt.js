@@ -3,8 +3,8 @@
 // rough analogue of Turbo Pascal CRT unit in Javascript
 
 const tty = require('tty');
-const ansi = require('ansi')(process.stdout);
-ansi.prefix = '\x1b';
+let ansi = require('ansi')(process.stdout);
+ansi.prefix = '\x1b'; // for convenience
 
 const Black = { name: 'black', tp: 0, ansi: ansi.black };
 const Blue = { name: 'blue', tp: 1, ansi: ansi.blue };
@@ -54,7 +54,7 @@ function ttyRaw(mode) {
   }
 }
 
-function cursorPosition() {
+async function cursorPosition() { // needs async / await
   // listen for the queryPosition report on stdin
   process.stdin.resume();
   ttyRaw(true);
@@ -73,18 +73,16 @@ function cursorPosition() {
 
   // send the query position request code to stdout
   ansi.queryPosition();
-  return { x: 1, y: 1};
+  return { x: 1, y: 1 };
 }
-
-// nops
 
 function AssignCrt(f) {
-  return f;
+  ansi = require('ansi')(f);
+  ansi.prefix = '\x1b'; // reinstate here too
+  return ansi;
 }
 
-function Delay(DTime) {
-  return DTime;
-}
+const Delay = ms => new Promise(res => setTimeout(res, ms));
 
 function NoSound() {
   return false;
@@ -93,6 +91,7 @@ function NoSound() {
 // cursor functions
 
 function BigCursor() {
+  ansi.show();
   return true;
 }
 
@@ -110,15 +109,16 @@ function GotoXY(x,y) {
   return ansi.goto(x,y);
 }
 
-function WhereX() {
-  return cursorPosition.x;
+async function WhereX() {
+  return await cursorPosition().x;
 }
 
-function WhereY() {
-  return cursorPosition.y;
+async function WhereY() {
+  return await cursorPosition().y;
 }
 
 function Window(x1,y1,x2,y2) {
+  // TODO
   return true;
 }
 
@@ -137,10 +137,12 @@ function ClrScr() {
 }
 
 function DelLine() {
+  // TODO
   return true;
 }
 
 function InsLine() {
+  // TODO
   return true;
 }
 
@@ -161,12 +163,12 @@ function NormVideo() {
 
 function TextBackground(cl) {
   ansi.bg[cl.name]();
-  return TextAttr = cl; //!
+  return TextAttr = cl;
 }
 
 function TextColor(cl) {
   ansi.fg[cl.name]();
-  return TextAttr = cl; //!
+  return TextAttr = cl;
 }
 
 // sound functions
