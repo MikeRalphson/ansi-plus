@@ -4,6 +4,7 @@
 
 const tty = require('tty');
 const ansi = require('ansi')(process.stdout);
+ansi.prefix = '\x1b';
 
 const Black = { name: 'black', tp: 0, ansi: ansi.black };
 const Blue = { name: 'blue', tp: 1, ansi: ansi.blue };
@@ -124,7 +125,7 @@ function Window(x1,y1,x2,y2) {
 // clearing
 
 function ClrEol() {
-  return true;
+  return ansi.write(ansi.prefix+'[K');
 }
 
 function ClrScr() {
@@ -176,12 +177,20 @@ function Sound(hz) {
 
 // keyboard functions
 
+const keypress = async () => {
+  process.stdin.setRawMode(true)
+  return new Promise(resolve => process.stdin.once('data', (k) => {
+    process.stdin.setRawMode(false);
+    resolve(k.toString('utf8'));
+  }));
+}
+
 function KeyPressed() {
   return false;
 }
 
-function ReadKey() {
-  return ch;
+async function ReadKey() {
+  return await keypress();
 }
 
 // helper functions
@@ -200,6 +209,18 @@ function Buffer(b) {
 
 function Flush() {
   return ansi.flush();
+}
+
+function Title(s) {
+  ansi.write(ansi.prefix+']0;'+s+ansi.prefix+'\\');
+}
+
+function Save() {
+  ansi.write(ansi.prefix+'[?47h');
+}
+
+function Restore() {
+  ansi.write(ansi.prefix+'[?47l');
 }
 
 module.exports = {
@@ -225,6 +246,7 @@ module.exports = {
   GotoXY,
   WhereX,
   WhereY,
+  ReadKey,
   TextColor,
   TextBackground,
   NormVideo,
@@ -233,6 +255,9 @@ module.exports = {
   Write,
   WriteLn,
   Buffer,
-  Flush
+  Flush,
+  Title,
+  Save,
+  Restore
 };
 
