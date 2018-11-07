@@ -247,6 +247,14 @@ function AltOff() {
   return ansi.write(ansi.prefix+'[?1049l');
 }
 
+function MouseOn() {
+  return ansi.write(ansi.prefix+'[?1000h');
+}
+
+function MouseOff() {
+  return ansi.write(ansi.prefix+'[?1000l');
+}
+
 function GetCh() {
   // doesn't look to be widely supported
   ansi.write(ansi.prefix+'5');
@@ -292,6 +300,8 @@ module.exports = {
   Restore,
   AltOn,
   AltOff,
+  MouseOn,
+  MouseOff,
   GetCh
 };
 
