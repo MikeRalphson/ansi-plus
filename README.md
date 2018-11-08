@@ -1,6 +1,6 @@
 # ansi-plus
 
-Turbo Pascal CRT unit-like functions and primitive TUI utilities
+Turbo Pascal CRT unit-like functions and primitive TUI utilities for Node.JS
 
 ## Installation
 

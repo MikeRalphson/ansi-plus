@@ -1,8 +1,8 @@
 {
   "name": "ansi-plus",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Turbo Pascal CRT unit-like functions and primitive TUI utilities",
+  "main": "crt.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,5 +10,28 @@
   "license": "MIT",
   "dependencies": {
     "ansi": "^0.3.1"
-  }
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeRalphson/ansi-plus.git"
+  },
+  "keywords": [
+    "turbopascal",
+    "tp",
+    "pascal",
+    "crt",
+    "ansi",
+    "curses",
+    "ncurses",
+    "tui"
+  ],
+  "bugs": {
+    "url": "https://github.com/MikeRalphson/ansi-plus/issues"
+  },
+  "homepage": "https://github.com/MikeRalphson/ansi-plus#readme"
 }
