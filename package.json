@@ -1,6 +1,6 @@
 {
   "name": "ansi-plus",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Turbo Pascal CRT unit-like functions and primitive TUI utilities",
   "main": "crt.js",
   "scripts": {
