@@ -7,3 +7,5 @@ for (let i=2;i<process.argv.length;i++) {
 if (title === '') title = 'Supply a title on the commandline!';
 
 crt.Title(title);
+setTimeout(function(){
+},5000);
